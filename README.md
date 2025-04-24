@@ -34,37 +34,7 @@ WorkingDirectory, etc.
   - RawValue: Propietat que retorna el valor brut.
 
 ## Exercici 3
-```csharp
-static void Activitat3()
-{
-    var proc = Process.Start(@"C:\Program Files\Google\Chrome\Application\chrome.exe");
-    ProcessThreadCollection threads;
-
-    Console.WriteLine("Esperant que el navegador s'inicialitzi completament...");
-    Thread.Sleep(10000);
-    threads = proc.Threads;
-    proc.Refresh();
-    PrintThreadInfo(proc, threads);
-
-    Console.WriteLine("\nObriu una nova pestanya manualment al navegador i premeu qualsevol tecla per analitzar de nou...");
-    Console.ReadKey();
-    proc.Refresh();
-    threads = proc.Threads;
-    PrintThreadInfo(proc, threads);
-
-    proc.WaitForExit(5000);
-}
-
-private static void PrintThreadInfo(Process proc, ProcessThreadCollection threads)
-{
-    Console.WriteLine($"\nAnàlisi de fils per al procés {proc.ProcessName} (ID: {proc.Id}) amb {threads.Count} fil/-s");
-    foreach (ProcessThread thread in threads)
-    {
-        Console.WriteLine($"ID del fil: {thread.Id}\tHora d'inici: {thread.StartTime}\tPrioritat: {thread.PriorityLevel}");
-    }
-}
-```
-No sembla que crei nous fils al obrir la pestanya, 47/47 (abans/després)
+Era culpa del Isard, els processava en ordre perquè anava lent. El comportament normal es que sigui aleatori ja que assigna diferents prioritats segons el criteri del sistema operatiu.
 
 ## Comparativa Thread vs Task
 
