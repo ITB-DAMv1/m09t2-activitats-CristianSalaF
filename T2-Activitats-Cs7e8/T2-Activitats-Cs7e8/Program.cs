@@ -10,7 +10,10 @@ namespace T2_Activitats_Cs7e8
             //Activitat2();
             //Activitat3();
 
-            Activitat5();
+            //Activitat5();
+            //Activitat5b();
+
+            Activitat6();
         }
 
         static void Activitat2()
@@ -35,7 +38,8 @@ namespace T2_Activitats_Cs7e8
             proc.Refresh();
             PrintThreadInfo(proc, threads);
 
-            Console.WriteLine("\nObriu una nova pestanya manualment al navegador i premeu qualsevol tecla per analitzar de nou...");
+            Console.WriteLine(
+                "\nObriu una nova pestanya manualment al navegador i premeu qualsevol tecla per analitzar de nou...");
             Console.ReadKey();
             proc.Refresh();
             threads = proc.Threads;
@@ -46,14 +50,16 @@ namespace T2_Activitats_Cs7e8
 
         private static void PrintThreadInfo(Process proc, ProcessThreadCollection threads)
         {
-            Console.WriteLine($"\nAnàlisi de fils per al procés {proc.ProcessName} (ID: {proc.Id}) amb {threads.Count} fil/-s");
+            Console.WriteLine(
+                $"\nAnàlisi de fils per al procés {proc.ProcessName} (ID: {proc.Id}) amb {threads.Count} fil/-s");
             foreach (ProcessThread thread in threads)
             {
-                Console.WriteLine($"ID del fil: {thread.Id}\tHora d'inici: {thread.StartTime}\tPrioritat: {thread.PriorityLevel}");
+                Console.WriteLine(
+                    $"ID del fil: {thread.Id}\tHora d'inici: {thread.StartTime}\tPrioritat: {thread.PriorityLevel}");
             }
         }
 
-        static void Activitat5() 
+        static void Activitat5()
         {
             for (int i = 1; i <= 5; i++)
             {
@@ -72,7 +78,7 @@ namespace T2_Activitats_Cs7e8
 
         static void Activitat5b()
         {
-            Console.WriteLine("Iniciando programa con 5 hilos en orden inverso");
+            Console.WriteLine("Iniciant programa amb 5 fils en ordre invers");
 
             for (int i = 1; i <= 5; i++)
             {
@@ -80,16 +86,40 @@ namespace T2_Activitats_Cs7e8
                 Thread hilo = new Thread(() => DelayThread(numeroHilo));
                 hilo.Start();
             }
+
             Console.ReadLine();
         }
 
         static void DelayThread(int numeroHilo)
         {
-            // El hilo con número mayor dormirá menos tiempo
-            // Esto debería hacer que los hilos se ejecuten en orden inverso (5, 4, 3, 2, 1)
             Thread.Sleep((6 - numeroHilo) * 100);
             Console.WriteLine($"Hola! Soc el fil número {numeroHilo}");
         }
-    }
+
+        static void Activitat6()
+        {
+            Console.WriteLine("Iniciant carrera de camells");
+            for (int i = 1; i <= 5; i++)
+            {
+                int numeroHilo = i;
+                Thread hilo = new Thread(() => CarreraCamell(numeroHilo));
+                hilo.Start();
+            }
+            Console.ReadLine();
+        }
+
+        private static void CarreraCamell(int numeroHilo)
+        {
+            Console.WriteLine($"Camell {numeroHilo} ha començat la carrera!");
+            Random random = new Random();
+            int min = random.Next(50, 100);
+            int max = random.Next(100, 200);
+            for (int i = 0; i <= 100; i++)
+            {
+                Console.WriteLine($"Camell {numeroHilo} va per la volta {i}");
+                Thread.Sleep(random.Next(min, max));
+            }
+            Console.WriteLine($"Camell {numeroHilo} ha acabat la carrera!");
+        }
     }
 }
